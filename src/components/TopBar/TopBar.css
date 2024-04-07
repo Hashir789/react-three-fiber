@@ -1,0 +1,13 @@
+.TopBar{
+    background-color: #083e4f;
+    height: 50px;
+    display: flex;
+}
+.TopBar h2{
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 30px;
+}

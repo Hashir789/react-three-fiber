@@ -1,10 +1,11 @@
 import React from 'react'
+import CanvasContainer from '../components/CanvasContainer/CanvasContainer'
 
 const Main = () => {
   return (
-    <div>
-      This is main page
-    </div>
+    <React.Fragment>
+      <CanvasContainer/>
+    </React.Fragment>
   )
 }
 
