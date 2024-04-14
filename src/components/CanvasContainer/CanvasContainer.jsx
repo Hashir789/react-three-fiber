@@ -11,7 +11,7 @@ import CylinderShape from "../Shapes/Cylinder/CylinderShape";
 import ImageComponent from "../Image/ImageComponent";
 
 const Form = ({ controls }) => {
-    const { shapes, setShapes, gridX, setGridX, gridY, setGridY, gridZ, setGridZ, option1, setOption1, option2, setOption2, option3, setOption3, option4, setOption4, planee, setPlanee  } = controls;
+    const { shapes, setShapes, gridX, setGridX, gridY, setGridY, gridZ, setGridZ, option1, setOption1, option2, setOption2, option3, setOption3, option4, setOption4, planee, setPlanee, cordinatePoints, select, setSelect, setCordinatePoints, setEnable, color, setColor } = controls;
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         switch (name) {
@@ -30,14 +30,23 @@ const Form = ({ controls }) => {
     };
     let labels = [ 'X Scale', 'Y Scale', 'Z Scale', 'Radius', 'X Segments', 'Y Segments', 'Radius Base', 'Radius Top', 'Height', 'Segments', 'Radius', 'Height', 'Segments' ]
     return (
-        <div className="controls">
+        <div className="controls" style={{ height: '600px', overflowY: 'auto' }}>
             <h2 style={{ textAlign: 'center' }}>{shapes.charAt(0).toUpperCase() + shapes.slice(1)}</h2><br/>
             <div className="controlGroup">
                 <div className="control">
                     <label>{shapes==='cube'?labels[0]:shapes==='sphere'?labels[3]:shapes==='cylinder'?labels[6]:labels[10]}</label>
                     <input
                         value={option1}
-                        onChange={(e)=>{ setOption1(e.target.value) }}
+                        onChange={(e)=>{ setOption1(e.target.value); 
+                          if (select > 0) { 
+                            let shape = cordinatePoints[select - 1].shape
+                            let argument = cordinatePoints[select - 1].arguments
+                            let number = cordinatePoints[select - 1].number
+                            let colorr = cordinatePoints[select - 1].color
+                            let cordinatePoint = cordinatePoints[select - 1].cordinatePoints
+                            let obj = { cordinatePoints: cordinatePoint, shape: shape, arguments: [option1, argument[1], argument[2]], number: number, color: colorr }
+                            setCordinatePoints([...cordinatePoints.slice(0, select - 1), obj, ...cordinatePoints.slice(select)]);
+                         } }}
                         step={1 / 32}
                         type="number"
                     />
@@ -46,7 +55,16 @@ const Form = ({ controls }) => {
                     <label>{shapes==='cube'?labels[1]:shapes==='sphere'?labels[4]:shapes==='cylinder'?labels[7]:labels[11]}</label>
                     <input
                         value={option2}
-                        onChange={(e)=>{ setOption2(e.target.value) }}
+                        onChange={(e)=>{ setOption2(e.target.value); 
+                          if (select > 0) { 
+                            let shape = cordinatePoints[select - 1].shape
+                            let argument = cordinatePoints[select - 1].arguments
+                            let number = cordinatePoints[select - 1].number
+                            let colorr = cordinatePoints[select - 1].color
+                            let cordinatePoint = cordinatePoints[select - 1].cordinatePoints
+                            let obj = { cordinatePoints: cordinatePoint, shape: shape, arguments: [argument[0], option2, argument[2]], number: number, color: colorr }
+                            setCordinatePoints([...cordinatePoints.slice(0, select - 1), obj, ...cordinatePoints.slice(select)]);
+                         } }}
                         step={1 / 32}
                         type="number"
                     />
@@ -55,7 +73,16 @@ const Form = ({ controls }) => {
                     <label>{shapes==='cube'?labels[2]:shapes==='sphere'?labels[5]:shapes==='cylinder'?labels[8]:labels[12]}</label>
                     <input
                         value={option3}
-                        onChange={(e)=>{ setOption3(e.target.value) }}
+                        onChange={(e)=>{ setOption3(e.target.value); 
+                          if (select > 0) { 
+                            let shape = cordinatePoints[select - 1].shape
+                            let argument = cordinatePoints[select - 1].arguments
+                            let number = cordinatePoints[select - 1].number
+                            let colorr = cordinatePoints[select - 1].color
+                            let cordinatePoint = cordinatePoints[select - 1].cordinatePoints
+                            let obj = { cordinatePoints: cordinatePoint, shape: shape, arguments: [argument[0], argument[1], option3], number: number, color: colorr }
+                            setCordinatePoints([...cordinatePoints.slice(0, select - 1), obj, ...cordinatePoints.slice(select)]);
+                         } }}
                         step={1 / 32}
                         type="number"
                     />
@@ -64,11 +91,34 @@ const Form = ({ controls }) => {
                     <label>{labels[9]}</label>
                     <input
                         value={option4}
-                        onChange={(e)=>{ setOption4(e.target.value) }}
+                        onChange={(e)=>{ setOption4(e.target.value); 
+                          if (select > 0) { 
+                            let shape = cordinatePoints[select - 1].shape
+                            let argument = cordinatePoints[select - 1].arguments
+                            let number = cordinatePoints[select - 1].number
+                            let colorr = cordinatePoints[select - 1].color
+                            let cordinatePoint = cordinatePoints[select - 1].cordinatePoints
+                            let obj = { cordinatePoints: cordinatePoint, shape: shape, arguments: [argument[0], argument[1], argument[2], option4], number: number, color: colorr }
+                            setCordinatePoints([...cordinatePoints.slice(0, select - 1), obj, ...cordinatePoints.slice(select)]);
+                         } }}
                         step={1 / 32}
                         type="number"
                     />
                 </div>}
+                <div className="control">
+                  <label htmlFor="colorpicker" style={{ color: 'white' }}>Color Picker</label>
+                  <input type="color" id="colorpicker" value={color} onChange={(e)=>{ 
+                    setColor(e.target.value)  
+                  if (select > 0) { 
+                    let shape = cordinatePoints[select - 1].shape
+                    let argument = cordinatePoints[select - 1].arguments
+                    let number = cordinatePoints[select - 1].number
+                    let colorr = color
+                    let cordinatePoint = cordinatePoints[select - 1].cordinatePoints
+                    let obj = { cordinatePoints: cordinatePoint, shape: shape, arguments: argument, number: number, color: colorr }
+                    setCordinatePoints([...cordinatePoints.slice(0, select - 1), obj, ...cordinatePoints.slice(select)]);
+                 } }}/>
+                </div>
             </div>
             <hr/>
             <h2 style={{ textAlign: 'center', marginTop: '10px' }}>Other Shapes</h2>
@@ -92,7 +142,7 @@ const Form = ({ controls }) => {
                 <label htmlFor="gridZ" style={{ color: 'white', fontSize: '14px' }}>&nbsp;&nbsp;Grid Z</label>
             </div>
             <hr/>
-            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', marginTop: '10px', marginBottom: '10px' }}>
                 <div>
                     <input type="radio" id="X" name="X" value="X" checked={planee==='X'} onChange={(e) => setPlanee(e.target.value)} />
                     <label htmlFor="X" style={{ color: 'white', fontSize: '14px' }}>&nbsp;&nbsp;Plane X</label>
@@ -105,6 +155,16 @@ const Form = ({ controls }) => {
                     <input type="radio" id="Z" name="Z" value="Z" checked={planee==='Z'} onChange={(e) => setPlanee(e.target.value)} />
                     <label htmlFor="Z" style={{ color: 'white', fontSize: '14px' }}>&nbsp;&nbsp;Plane Z</label>
                 </div>
+            </div>
+            <hr/>
+            <div style={{ marginTop: '10px' }}>
+            {cordinatePoints.length > 0 && cordinatePoints.map((cordinatePoint, index) => (<div key={index}>
+              <div style={{ color: 'white', paddingTop: '5px', paddingBottom: '5px', background: select===cordinatePoint.number?'red':'inherit', cursor: 'pointer' }} key={index} onClick={()=>{ setSelect(select>0?-1:cordinatePoint.number); }}>
+                <div>Shape # {cordinatePoint.number}: {cordinatePoint.shape}</div>
+              </div>
+                <button style={{ width: '100%', padding: '5px' }} onClick={()=>{ setEnable(1); }}>Move Shape # {cordinatePoint.number}: {cordinatePoint.shape}</button>
+              </div>
+            ))}
             </div>
         </div>
     );
@@ -124,38 +184,99 @@ const CanvasContainer = () => {
   const [gridX, setGridX] = useState(true)
   const [gridY, setGridY] = useState(true)
   const [gridZ, setGridZ] = useState(true)
-  const [planee, setPlanee] = useState('Y')
+  const [planee, setPlanee] = useState('X')
   const [option1, setOption1] = useState(1)
   const [option2, setOption2] = useState(1)
   const [option3, setOption3] = useState(1)
   const [option4, setOption4] = useState(null)
+  const [no, setNo] = useState(1)
+  const [select, setSelect] = useState(-2)
+  const [xyz, setXYZ] = useState([0, 0, 0])
+  const [enable, setEnable] = useState(0)
+  const [color, setColor] = useState('#ff0000')
+  useEffect(() => {
+    setEnable(0)
+  }, [select]);
+  useEffect(() => {
+    document.addEventListener("mousemove", handlePointerMissed2);
+    return () => {
+      document.removeEventListener("mousemove", handlePointerMissed2);
+    };
+  }, []);
   const handlePointerMissed = (event) => {
-    const canvas = event.target;
-    mouse.x = (event.clientX / canvas.clientWidth) * 2 - 1;
-    mouse.y = -(event.clientY / canvas.clientHeight) * 2 + 1;
-    planeNormal.copy(cameraRef.current.position).normalize();
-    plane.setFromNormalAndCoplanarPoint(planeNormal, new Vector3(0, 0, 0));
-    raycaster.setFromCamera(mouse, cameraRef.current);
-    raycaster.ray.intersectPlane(plane, intersectionPoint);
-    const shape = shapes
-    let argument = [option1, option2, option3]
-    if (option4!==null) { argument.push(option4) }  
-    setCordinatePoints([
-      ...cordinatePoints,
-      {
-        cordinatePoints: [
-          intersectionPoint.x,
-          intersectionPoint.y,
-          intersectionPoint.z,
-        ],
-        shape: shape,
-        arguments: argument
-      },
-    ]);
+    if (select <= 0) {
+      const canvas = event.target;
+      mouse.x = (event.clientX / canvas.clientWidth) * 2 - 1;
+      mouse.y = -(event.clientY / canvas.clientHeight) * 2 + 1;
+      planeNormal.copy(cameraRef.current.position).normalize();
+      plane.setFromNormalAndCoplanarPoint(planeNormal, new Vector3(0, 0, 0));
+      raycaster.setFromCamera(mouse, cameraRef.current);
+      raycaster.ray.intersectPlane(plane, intersectionPoint);
+      const shape = shapes
+      let argument = [option1, option2, option3]
+      let y = 0
+      if (option4!==null) { argument.push(option4) }  
+      if (shapes === 'cube' || shapes === 'cone') {
+        y = option2 / 2
+      } else if (shapes === 'sphere') {
+        y = option1
+      } else {
+        y = option3 / 2
+      }
+      const number = no;
+      const colorr = color;
+      setXYZ([intersectionPoint.x, y, intersectionPoint.z]);
+      setCordinatePoints([
+        ...cordinatePoints,
+        {
+          cordinatePoints: [
+            intersectionPoint.x,
+            y,
+            intersectionPoint.z,
+          ],
+          shape: shape,
+          arguments: argument,
+          number: number,
+          color: colorr
+        },
+      ]); 
+      setNo(no + 1);
+      setSelect(select>0?-1:select)
+    } else {
+      let shape = cordinatePoints[select - 1].shape
+      let argument = cordinatePoints[select - 1].arguments
+      let number = cordinatePoints[select - 1].number
+      let colorr = cordinatePoints[select - 1].color
+      let obj = { cordinatePoints: xyz, shape: shape, arguments: argument, number: number, color: colorr }
+      if (enable === 1) {
+      setCordinatePoints([...cordinatePoints.slice(0, select - 1), obj, ...cordinatePoints.slice(select)]);
+      setSelect(select>0?-1:select)
+      }
+    }
+  };
+  const handlePointerMissed2 = (event) => {
+      const canvas = event.target;
+      mouse.x = (event.clientX / canvas.clientWidth) * 2 - 1;
+      mouse.y = -(event.clientY / canvas.clientHeight) * 2 + 1;
+      planeNormal.copy(cameraRef.current.position).normalize();
+      plane.setFromNormalAndCoplanarPoint(planeNormal, new Vector3(0, 0, 0));
+      raycaster.setFromCamera(mouse, cameraRef.current);
+      raycaster.ray.intersectPlane(plane, intersectionPoint);
+      let argument = [option1, option2, option3]
+      let y = 0
+      if (option4!==null) { argument.push(option4) }  
+      if (shapes === 'cube' || shapes === 'cone') {
+        y = option2 / 2
+      } else if (shapes === 'sphere') {
+        y = option1
+      } else {
+        y = option3 / 2
+      }
+      setXYZ([intersectionPoint.x, y, intersectionPoint.z]);  
   };
   return (
     <div className="CanvasContainer">
-      <Form controls={{ shapes, setShapes, gridX, setGridX, gridY, setGridY, gridZ, setGridZ, option1, setOption1, option2, setOption2, option3, setOption3, option4, setOption4, planee, setPlanee }}/>
+      <Form controls={{ shapes, setShapes, gridX, setGridX, gridY, setGridY, gridZ, setGridZ, option1, setOption1, option2, setOption2, option3, setOption3, option4, setOption4, planee, setPlanee, cordinatePoints, select, setSelect, setCordinatePoints, setEnable, color, setColor }}/>
       <Canvas className="Canvas" onPointerMissed={handlePointerMissed}>
         <Suspense
           fallback={
@@ -166,13 +287,12 @@ const CanvasContainer = () => {
         >
           <ambientLight intensity={1} />
           <directionalLight intensity={1} position={[10, 20, 10]} />
-          <OrbitControls ref={orbitRef} />
+          <OrbitControls ref={orbitRef} />          
           <ImageComponent controls={{ planee, size }}/>
           <PerspectiveCamera
             ref={cameraRef}
             makeDefault
-            position={[0, 0, 15]}
-            // position={[20, 5, 20]}
+            position={[0, 15, 0]}
           />
           <group>
             {gridX && <Text
@@ -232,30 +352,60 @@ const CanvasContainer = () => {
               <React.Fragment key={index}>
                 {cordinatePoint.shape === "sphere" && (
                   <SphereShape
+                    number={cordinatePoint.number}
                     rotation={[0, 0, 0]}
                     position={cordinatePoint.cordinatePoints}
                     args={cordinatePoint.arguments}
+                    select={select}
+                    setSelect={setSelect}
+                    position2={xyz}
+                    enable={enable}
+                    color={cordinatePoint.color}
                   />
                 )}
                 {cordinatePoint.shape === "cube" && (
                   <Cube
+                    number={cordinatePoint.number}
                     rotation={[0, 0, 0]}
                     position={cordinatePoint.cordinatePoints}
                     args={cordinatePoint.arguments}
+                    select={select}
+                    setSelect={setSelect}
+                    position2={xyz}
+                    enable={enable}
+                    color={cordinatePoint.color}
+                    shape={shapes}
+                    setShape={setShapes}
                   />
                 )}
                 {cordinatePoint.shape === "cone" && (
                   <ConeShape
+                    number={cordinatePoint.number}
                     rotation={[0, 0, 0]}
                     position={cordinatePoint.cordinatePoints}
                     args={cordinatePoint.arguments}
+                    select={select}
+                    setSelect={setSelect}
+                    position2={xyz}
+                    enable={enable}
+                    color={cordinatePoint.color}
+                    shape={shapes}
+                    setShape={setShapes}
                   />
                 )}
                 {cordinatePoint.shape === "cylinder" && (
                   <CylinderShape
+                    number={cordinatePoint.number}
                     rotation={[0, 0, 0]}
                     position={cordinatePoint.cordinatePoints}
                     args={cordinatePoint.arguments}
+                    select={select}
+                    setSelect={setSelect}
+                    position2={xyz}
+                    enable={enable}
+                    color={cordinatePoint.color}
+                    shape={shapes}
+                    setShape={setShapes}
                   />
                 )}
               </React.Fragment>
